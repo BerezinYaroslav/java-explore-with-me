@@ -15,18 +15,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class EndpointHitDto {
-    Integer id;
+    private Long id;
 
     @NotEmpty(message = "Name app is empty")
-    String app;
+    private String app;
 
     @NotEmpty(message = "Uri is empty")
-    String uri;
+    private String uri;
 
     @NotEmpty(message = "IP is empty")
-    String ip;
+    private String ip;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "Timestamp is null")
-    LocalDateTime timestamp;
+    private LocalDateTime created;
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.ViewStatsDto;
-import ru.practicum.server.mapper.StatMapper;
+import ru.practicum.server.mapper.EndpointHitMapper;
 import ru.practicum.server.repository.StatRepository;
 
 import java.security.InvalidParameterException;
@@ -14,19 +14,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.practicum.server.mapper.StatMapper.toObject;
-import static ru.practicum.server.mapper.StatMapper.toViewStatsDto;
+import static ru.practicum.server.mapper.EndpointHitMapper.toObject;
+import static ru.practicum.server.mapper.ViewStatsMapper.toViewStatsDto;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class StatServiceImpl implements StatService {
-    private final StatRepository repository;
+    private final StatRepository statRepository;
 
     @Override
     public void saveStat(EndpointHitDto endpointHitDto) {
         log.debug("EndpointHit with id {} saved", endpointHitDto.getId());
-        repository.save(toObject(endpointHitDto));
+        statRepository.save(toObject(endpointHitDto));
     }
 
     @Override
@@ -41,12 +41,12 @@ public class StatServiceImpl implements StatService {
 
         if (uris != null && uris.size() > 0) {
             return unique ?
-                    toViewStatsDto(repository.getAllByUrisAndUniqueIp(start, end, uris)) :
-                    toViewStatsDto(repository.getAllByUris(start, end, uris));
+                    toViewStatsDto(statRepository.getAllByUrisAndUniqueIp(start, end, uris)) :
+                    toViewStatsDto(statRepository.getAllByUris(start, end, uris));
         } else {
             return unique ?
-                    toViewStatsDto(repository.getAllByUniqueIp(start, end)) :
-                    toViewStatsDto(repository.getAll(start, end));
+                    toViewStatsDto(statRepository.getAllByUniqueIp(start, end)) :
+                    toViewStatsDto(statRepository.getAll(start, end));
         }
     }
 
@@ -54,6 +54,6 @@ public class StatServiceImpl implements StatService {
     @Transactional(readOnly = true)
     public List<EndpointHitDto> getAll() {
         log.debug("All endpoints returned");
-        return repository.findAll().stream().map(StatMapper::toDto).collect(Collectors.toList());
+        return statRepository.findAll().stream().map(EndpointHitMapper::toDto).collect(Collectors.toList());
     }
 }

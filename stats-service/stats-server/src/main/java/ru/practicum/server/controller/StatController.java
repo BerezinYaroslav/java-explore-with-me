@@ -16,19 +16,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class StatController {
-    private final StatService service;
+    private final StatService statService;
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @PostMapping("/hit")
     public void saveStat(@RequestBody EndpointHitDto endpointHitDto) {
         log.info("New POST /hit request");
-        service.saveStat(endpointHitDto);
+        statService.saveStat(endpointHitDto);
     }
 
     @GetMapping("/hit")
     public List<EndpointHitDto> getAllStats() {
         log.info("New Get /hit request");
-        return service.getAll();
+        return statService.getAll();
     }
 
     @GetMapping("/stats")
@@ -37,6 +37,6 @@ public class StatController {
                                        @RequestParam(required = false) List<String> uris,
                                        @RequestParam(defaultValue = "false") Boolean unique) {
         log.info("New GET /stats request");
-        return service.getStats(start, end, uris, unique);
+        return statService.getStats(start, end, uris, unique);
     }
 }
