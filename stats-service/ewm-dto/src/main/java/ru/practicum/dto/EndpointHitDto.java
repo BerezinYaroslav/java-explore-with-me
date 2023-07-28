@@ -21,12 +21,12 @@ public class EndpointHitDto {
     private String app;
 
     @NotEmpty(message = "Uri is empty")
-    private String uri;
+     private String uri;
 
     @NotEmpty(message = "IP is empty")
     private String ip;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "Timestamp is null")
-    private LocalDateTime created;
+    private LocalDateTime timestamp;
 }
