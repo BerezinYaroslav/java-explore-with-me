@@ -12,7 +12,7 @@ public class EndpointHitMapper {
                 .app(endpointHitDto.getApp())
                 .uri(endpointHitDto.getUri())
                 .ip(endpointHitDto.getIp())
-                .created(endpointHitDto.getTimestamp()).build();
+                .createdDate(endpointHitDto.getTimestamp()).build();
     }
 
     public static EndpointHitDto toDto(EndpointHit endpointHit) {
@@ -21,6 +21,6 @@ public class EndpointHitMapper {
                 .app(endpointHit.getApp())
                 .uri(endpointHit.getUri())
                 .ip(endpointHit.getIp())
-                .timestamp(endpointHit.getCreated()).build();
+                .timestamp(endpointHit.getCreatedDate()).build();
     }
 }
