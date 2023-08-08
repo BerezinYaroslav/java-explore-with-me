@@ -16,9 +16,6 @@ import ru.practicum.ewmservice.service.CategoryService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.practicum.ewmservice.mapper.CategoryMapper.toDto;
-import static ru.practicum.ewmservice.mapper.CategoryMapper.toModel;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -26,14 +23,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public CategoryDto created(NewCategoryDto categoryDto) {
+    public CategoryDto create(NewCategoryDto categoryDto) {
         log.info("Task created new category {}", categoryDto);
         isNameCategoryExist(categoryDto.getName());
-        final Category category = toModel(categoryDto);
+        final Category category = CategoryMapper.toModel(categoryDto);
         log.debug("try save new category {}", category);
         final Category savedCategory = categoryRepository.save(category);
         log.debug("Category save. Save category: '{}'", savedCategory);
-        return toDto(savedCategory);
+        return CategoryMapper.toDto(savedCategory);
     }
 
     @Override
@@ -55,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         final Category updatedCategory = categoryRepository.save(oldCategory);
         log.debug("Category updated successfully");
-        return toDto(updatedCategory);
+        return CategoryMapper.toDto(updatedCategory);
     }
 
     @Override
@@ -69,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getById(Long catId) {
         log.info("Task get category by id={}", catId);
-        return toDto(categoryRepository.findById(catId).orElseThrow(() ->
+        return CategoryMapper.toDto(categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("Category with id='" + catId + "' not found")));
     }
 

@@ -1,9 +1,9 @@
-package ru.practicum.ewmservice.controller;
+package ru.practicum.ewmservice.controller.common;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.practicum.ewmservice.util.PageFactory.createPageable;
 
 @RestController
 @RequestMapping("/events")
@@ -39,7 +41,7 @@ public class EventControllerPublic {
         log.debug("Param: search by = '{}', id categories = '{}', paid = {}, start range = '{}', end range = '{}', " +
                         "only available = {}, sort by = '{}', pageable from = '{}', pageable size = '{}'", text, categories, paid,
                 rangeStart, rangeEnd, onlyAvailable, sort, from, size);
-        final Pageable pageable = PageRequest.of(from / size, size);
+        final Pageable pageable = createPageable(from, size, Sort.Direction.ASC, "id");
         return eventService.getAllEventFromPublic(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, pageable, request);
     }
 

@@ -7,7 +7,7 @@ import ru.practicum.dto.input.NewCategoryDto;
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDto created(NewCategoryDto categoryDto);
+    CategoryDto create(NewCategoryDto categoryDto);
 
     void delete(Long catId);
 

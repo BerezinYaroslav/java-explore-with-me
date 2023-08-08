@@ -21,9 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.practicum.ewmservice.mapper.CompilationMapper.toDto;
-import static ru.practicum.ewmservice.mapper.CompilationMapper.toModel;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -34,7 +31,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional
     public CompilationDto create(NewCompilationDto compilationDto) {
-        final Compilation compilation = toModel(compilationDto);
+        final Compilation compilation = CompilationMapper.toModel(compilationDto);
 
         if (compilation.getPinned() == null) {
             compilation.setPinned(false);
@@ -48,7 +45,7 @@ public class CompilationServiceImpl implements CompilationService {
 
         final Compilation compilationAfterSave = compilationRepository.save(compilation);
         log.debug("Compilation save = [{}]", compilationAfterSave.toString());
-        return toDto(compilationAfterSave);
+        return CompilationMapper.toDto(compilationAfterSave);
     }
 
     @Override
@@ -65,7 +62,7 @@ public class CompilationServiceImpl implements CompilationService {
         compilation.setPinned(update.getPinned() != null ? update.getPinned() : compilation.getPinned());
         compilation.setTitle(update.getTitle() != null ? update.getTitle() : compilation.getTitle());
         final Compilation compilationAfterSave = compilationRepository.save(compilation);
-        return toDto(compilationAfterSave);
+        return CompilationMapper.toDto(compilationAfterSave);
     }
 
     @Override
@@ -82,7 +79,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public CompilationDto getById(Long compId) {
-        return toDto(getCompilationById(compId));
+        return CompilationMapper.toDto(getCompilationById(compId));
     }
 
     private Compilation getCompilationById(Long comId) {

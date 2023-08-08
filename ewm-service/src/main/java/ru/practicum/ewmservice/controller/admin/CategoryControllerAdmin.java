@@ -25,7 +25,7 @@ public class CategoryControllerAdmin {
     public CategoryDto created(@Valid @RequestBody NewCategoryDto categoryDto) {
         log.trace("Endpoint request: POST admin/categories");
         log.debug("Param: input body '{}'", categoryDto);
-        return categoryService.created(categoryDto);
+        return categoryService.create(categoryDto);
     }
 
     @DeleteMapping("/{catId}")

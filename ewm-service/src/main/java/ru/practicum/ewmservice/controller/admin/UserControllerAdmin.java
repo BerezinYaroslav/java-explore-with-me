@@ -2,7 +2,6 @@ package ru.practicum.ewmservice.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,8 @@ import ru.practicum.ewmservice.service.UserService;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
+
+import static ru.practicum.ewmservice.util.PageFactory.createPageable;
 
 @RestController
 @RequestMapping("/admin/users")
@@ -30,7 +31,7 @@ public class UserControllerAdmin {
                                            @RequestParam(required = false, defaultValue = "10") @Min(1) Integer size) {
         log.trace("Endpoint request: GET admin/users");
         log.debug("Param: array ids = '{}', from = '{}', size = '{}'", ids, from, size);
-        final Pageable pageable = PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id"));
+        final Pageable pageable = createPageable(from, size, Sort.Direction.ASC, "id");
         return userService.findUserById(ids, pageable);
     }
 

@@ -23,8 +23,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.practicum.ewmservice.mapper.RequestMapper.toDto;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -66,7 +64,7 @@ public class RequestServiceImpl implements RequestService {
             request.setStatus(RequestStatus.CONFIRMED);
         }
 
-        return toDto(request);
+        return RequestMapper.toDto(request);
     }
 
     private void validationNewRequest(Event event, Long userId, Long eventId) {
@@ -107,7 +105,7 @@ public class RequestServiceImpl implements RequestService {
         request.setStatus(RequestStatus.CANCELED);
         final Request requestAfterSave = requestRepository.save(request);
         log.debug("Request after canceled = [{}]", requestAfterSave);
-        return toDto(requestAfterSave);
+        return RequestMapper.toDto(requestAfterSave);
     }
 
     private void isUserExists(Long userId) {

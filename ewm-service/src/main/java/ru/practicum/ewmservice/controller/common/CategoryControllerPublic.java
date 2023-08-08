@@ -1,8 +1,7 @@
-package ru.practicum.ewmservice.controller;
+package ru.practicum.ewmservice.controller.common;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,8 @@ import ru.practicum.ewmservice.service.CategoryService;
 
 import javax.validation.constraints.Min;
 import java.util.List;
+
+import static ru.practicum.ewmservice.util.PageFactory.createPageable;
 
 @RestController
 @RequestMapping("/categories")
@@ -28,7 +29,7 @@ public class CategoryControllerPublic {
                                     @RequestParam(required = false, defaultValue = "10") @Min(1) Integer size) {
         log.trace("Endpoint request: GET /categories");
         log.debug("Param: from = '{}', size = '{}'", from, size);
-        final Pageable pageable = PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id"));
+        final Pageable pageable = createPageable(from, size, Sort.Direction.ASC, "id");
         return categoryService.getAll(pageable);
     }
 

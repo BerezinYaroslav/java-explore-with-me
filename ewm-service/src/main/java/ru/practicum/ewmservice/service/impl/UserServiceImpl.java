@@ -17,9 +17,6 @@ import ru.practicum.ewmservice.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.practicum.ewmservice.mapper.UserMapper.toDto;
-import static ru.practicum.ewmservice.mapper.UserMapper.toModel;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -30,12 +27,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto created(NewUserDto newUser) {
         log.info("Task created new user {}", newUser);
-        final User user = toModel(newUser);
+        final User user = UserMapper.toModel(newUser);
         log.debug("try save new user {}", user);
-        validationEmail(newUser.getEmail());
+        validateEmail(newUser.getEmail());
         final User savedUser = userRepository.save(user);
         log.debug("User created successfully, user id {}", savedUser.getId());
-        return toDto(savedUser);
+        return UserMapper.toDto(savedUser);
     }
 
     @Override
@@ -63,7 +60,7 @@ public class UserServiceImpl implements UserService {
         log.debug("User with id {} deleted - {}", userId, !userRepository.existsById(userId));
     }
 
-    private void validationEmail(String email) {
+    private void validateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
             throw new EmailConflictException("Email '" + email + "' is exist");
         }

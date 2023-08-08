@@ -2,7 +2,6 @@ package ru.practicum.ewmservice.controller.users;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -21,6 +20,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+import static ru.practicum.ewmservice.util.PageFactory.createPageable;
+
 @RestController
 @RequestMapping("/users/{userId}/events")
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class EventControllerUsers {
                                                     @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         log.trace("Endpoint request: GET /users/{userId}/events");
         log.debug("Param: user id = '{}', from = '{}', size = '{}'", userId, from, size);
-        final Pageable pageable = PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id"));
+        final Pageable pageable = createPageable(from, size, Sort.Direction.ASC, "id");
         return eventService.getEventsByUserId(userId, pageable);
     }
 
