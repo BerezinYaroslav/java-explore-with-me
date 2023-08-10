@@ -1,3 +1,5 @@
+PR - https://github.com/BerezinYaroslav/java-explore-with-me/pull/5
+
 # Диппломный проект - Explore With Me
 
 ## Техническое задание
